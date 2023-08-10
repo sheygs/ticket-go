@@ -1,3 +1,3 @@
-### learn-go
+### go-basics
 
-A repository that would contain some of my rookie Golang code.
+- Fundamental Golang concepts
