@@ -1,3 +1,3 @@
-### go-basics
+### go-web
 
 - Fundamental Golang concepts
