@@ -102,7 +102,7 @@ func main() {
 
 	}
 
-	// unreachable line because loop is infinite. unless it terminates
+	// unreachable line - Infinite loop unless it terminates
 	// fmt.Println("These are all the bookings: \v", bookings)
 }
 
