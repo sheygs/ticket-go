@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// one entry point per app
+
 func main() {
 	// declare and initialise a variable
 
@@ -35,14 +35,14 @@ func main() {
 	 // var bookings [50]string
 
 	 // 2. slice
-	 var bookings []string //  or var bookings =  []string{}
+	 var bookings []string
+	 // OR var bookings =  []string{}
 	 // bookingsArr := []string{}
 
-	 // empty list that will store "firstNames"
+	 // empty list
 	 firstNames := []string{}
 
 	// "for-loop" as an infinite loop
-	// no conditions
 	for {
     fmt.Println("What is your first name ?: ")
 	 // ask for "firstname" input
@@ -72,11 +72,9 @@ func main() {
 	    }
 	 }
 
-
-
 	 // fmt.Printf("\nThe array: %v", bookings)
 	 // fmt.Printf("\nfirst value: %s", bookings[0])
-	 // fmt.Printf("\narray type: %T", bookings)
+	 // fmt.Printf("\narray typeof: %T", bookings)
 	 // fmt.Printf("\narray length: %d", len(bookings))
 
 	 remainingTickets -= userTickets
@@ -104,7 +102,7 @@ func main() {
 
 	}
 
-	// will not execute because loop is infinite. unless it terminates
+	// unreachable line because loop is infinite. unless it terminates
 	// fmt.Println("These are all the bookings: \v", bookings)
 }
 
