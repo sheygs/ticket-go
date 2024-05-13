@@ -22,7 +22,19 @@ func main() {
 
 	 isValidName, isValidEmail, isValidTicketNum := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
-	 if isValidEmail && isValidName && isValidTicketNum {
+
+     if !isValidName {
+	    fmt.Println("firstname or lastname is invalid")
+	  }
+
+	  if !isValidEmail {
+       fmt.Println("email is invalid")
+	  }
+
+	  if !isValidTicketNum {
+       fmt.Println("ticket number is invalid")
+	  }
+
       remainingTickets -= userTickets
 
 	   bookings = append(bookings, firstName + " " + lastName)
@@ -34,23 +46,11 @@ func main() {
 
       fmt.Printf("first names of bookings are : %v\n",firstNames)
 
-	     if remainingTickets == 0 {
+	   if remainingTickets == 0 {
           fmt.Println("All conference tickets already out")
 	       break
-	     }
-	  } else  {
-		  if !isValidName {
-	        fmt.Println("firstname or lastname is invalid")
-		  }
+	   }
 
-		  if !isValidEmail {
-          fmt.Println("email is invalid")
-		  }
-
-		  if !isValidTicketNum {
-          fmt.Println("ticket number is invalid")
-		  }
-	  }
 	}
 }
 
