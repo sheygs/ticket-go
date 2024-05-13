@@ -7,103 +7,110 @@ import (
 
 
 func main() {
-	// declare and initialise a variable
-
-	conferenceName := "Go conference"
-	// var conferenceName string = "Go conference"
-	// mark a variable as unchanged
+	// Declare and initialise a variable
    const conferenceTickets =  60
 	var remainingTickets uint = 60
+	conferenceName := "Go conference"
 
-	// print out the "typeof" value
-	fmt.Printf("conferenceTickets is %T, remainingTickets is %T, conferenceName is %T\n", conferenceTickets, remainingTickets, conferenceName)
+	greetUsers(conferenceName,conferenceTickets, remainingTickets)
 
+	var bookings []string
+
+	// Infinite "for-loop"
+	for  {
+	 firstName,lastName, email, userTickets := getUserInputs();
+
+	 isValidName, isValidEmail, isValidTicketNum := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
+
+	 if isValidEmail && isValidName && isValidTicketNum {
+      remainingTickets -= userTickets
+
+	   bookings = append(bookings, firstName + " " + lastName)
+
+	   fmt.Printf("%s %s with email ID: %s, ordered for %d tickets. The number of tickets left is %d 🚀\n",firstName, lastName, email, userTickets, remainingTickets)
+	   fmt.Printf("These are all the bookings: %v\n", bookings)
+
+	   firstNames := getFirstNames(bookings);
+
+      fmt.Printf("first names of bookings are : %v\n",firstNames)
+
+	     if remainingTickets == 0 {
+          fmt.Println("All conference tickets already out")
+	       break
+	     }
+	  } else  {
+		  if !isValidName {
+	        fmt.Println("firstname or lastname is invalid")
+		  }
+
+		  if !isValidEmail {
+          fmt.Println("email is invalid")
+		  }
+
+		  if !isValidTicketNum {
+          fmt.Println("ticket number is invalid")
+		  }
+	  }
+	}
+}
+
+func greetUsers(conferenceName string, tickets int, remainingTickets uint){
 	// fmt.Println("Welcome to our " + conferenceName + " booking application 🚀");
 	// fmt.Println("Welcome to our ", conferenceName, " booking application 🚀")
-	fmt.Printf("Welcome to our %s booking application. 🚀\n", conferenceName)
-	fmt.Printf("We have a total of %d tickets and %d remaining tickets.\n", conferenceTickets, remainingTickets)
+
+ 	fmt.Printf("Welcome to our %s booking application. 🚀\n", conferenceName)
+	fmt.Printf("We have a total of %d tickets and %d remaining tickets.\n", tickets, remainingTickets)
 	fmt.Printf("Get your tickets to attend the %s\n", conferenceName)
+}
 
+func getFirstNames(bookings []string) []string {
+	 // empty list
+	 firstNames := []string{}
 
-	 // declare a variable
+	 // "for-each" loop
+	 for _, booking := range bookings {
+		// Alternative - "strings.Field()"
+		names := strings.Split(booking, " ")
+		firstNames = append(firstNames, names[0])
+	 }
+
+	 return firstNames
+}
+
+func validateUserInput(firstName string, lastName string, email string, userTickets uint, remainingTickets uint) (bool, bool, bool){
+
+	 // Input validations
+	 isValidName := len(firstName) >= 3 && len(lastName) >= 3
+
+	 isValidEmail := strings.Contains(email,"@")
+
+	 isValidTicketNum := userTickets <= remainingTickets && userTickets > 0
+
+	 return isValidName, isValidEmail, isValidTicketNum
+}
+
+func getUserInputs()(string, string, string, uint){
 	 var firstName string
 	 var lastName string
     var email string
 	 var userTickets uint
 
-	 // 1. arrays
-	 // var bookings [50]string
-
-	 // 2. slice
-	 var bookings []string
-	 // OR var bookings =  []string{}
-	 // bookingsArr := []string{}
-
-	 // empty list
-	 firstNames := []string{}
-
-	// "for-loop" as an infinite loop
-	for {
-    fmt.Println("What is your first name ?: ")
-	 // ask for "firstname" input
-	 // pointers. we are passing the memory address of the variable
+	 fmt.Println("What is your first name? :")
+	 // Pointers -'&'. we are passing the memory address of the variable
 	 fmt.Scan(&firstName)
-	 fmt.Println(&firstName) // p the memory address of the variable
 
-	 fmt.Println("What is your last name ?: ")
-	 fmt.Scan(&lastName) 	// ask for "lastname" input
+	 fmt.Println("What is your last name? :")
+	 fmt.Scan(&lastName)
 
-	 fmt.Println("What is your email ?: ")
+	 fmt.Println("What is your email? :")
 	 fmt.Scan(&email)
 
-	 fmt.Println("How many tickets are you booking ?: ")
+	 fmt.Println("How many tickets are you booking? :")
 	 fmt.Scan(&userTickets)
 
-	 for {
- 	    if userTickets > remainingTickets {
-	      fmt.Printf("Tickets not sufficient, you may have to order %d or less\n", remainingTickets)
-
-		   fmt.Println("How many tickets are you booking ?: ")
-	      fmt.Scan(&userTickets)
-
-		    if userTickets <= remainingTickets {
-            break
-		    }
-	    }
-	 }
-
-	 // fmt.Printf("\nThe array: %v", bookings)
-	 // fmt.Printf("\nfirst value: %s", bookings[0])
-	 // fmt.Printf("\narray typeof: %T", bookings)
-	 // fmt.Printf("\narray length: %d", len(bookings))
-
-	 remainingTickets -= userTickets
-	 bookings = append(bookings, firstName + " " + lastName + ",")
-
-	 fmt.Printf("%s %s with email ID: %s, ordered for %d tickets. The number of tickets left is %d 🚀\n",firstName, lastName, email, userTickets, remainingTickets)
-	 fmt.Printf("These are all the bookings: %v\n", bookings)
-
-	 // "for-each" loop
-	 for _, booking := range bookings {
-		 // you can use "strings.Field()" too
-		 names := strings.Split(booking, " ")
-		 firstNames = append(firstNames, names[0] + ",")
-	 }
-
-    fmt.Printf("first name is: %v\n",firstNames)
-
-	 // var ticketsLeft bool = remainingTickets == 0
-	 // ticketsLeft := remainingTickets == 0
-
-	 if remainingTickets == 0 {
-     fmt.Println("All conference tickets already out")
-	  break
-	 }
-
-	}
-
-	// unreachable line - Infinite loop unless it terminates
-	// fmt.Println("These are all the bookings: \v", bookings)
+	 return firstName, lastName, email, userTickets
 }
 
-
+func bookTickets(){
+	// do something
+}

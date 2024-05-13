@@ -2,6 +2,6 @@
 
 > Brushing up Fundamental Go concepts
 
-### Run App
+### Run Application
 
 > go run main.go
