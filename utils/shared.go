@@ -12,7 +12,7 @@ func ValidateUserInput(firstName string, lastName string, email string, userTick
 
 	 isValidEmail := strings.Contains(email,"@")
 
-	 isValidTicketNum := userTickets <= remainingTickets || userTickets > 0
+	 isValidTicketNum := userTickets <= remainingTickets && userTickets > 0
 
 	 return isValidName, isValidEmail, isValidTicketNum
 }

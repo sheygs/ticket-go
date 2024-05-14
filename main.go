@@ -3,14 +3,15 @@ package main
 import (
 	shared "book-snap/utils"
 	"fmt"
-	"strings"
+	"strconv"
 )
 
 // Declare and initialise a variable
 const conferenceTickets uint =  60
 var remainingTickets uint = 60
 var conferenceName = "Go conference"
-var bookings []string
+// create an empty list of map; Initialize the size to 0
+var bookings  = make([]map[string]string, 0)
 
 func main() {
 
@@ -23,17 +24,17 @@ func main() {
 
 
      if !isValidName {
-	    fmt.Println("firstname or lastname is invalid")
+	    fmt.Println("'firstname/lastname' is invalid")
 		 break
 	  }
 
 	  if !isValidEmail {
-       fmt.Println("email is invalid")
+       fmt.Println("'email' is invalid")
 		 break
 	  }
 
 	  if !isValidTicketNum {
-       fmt.Println("ticket number is invalid")
+       fmt.Println("'ticket number' is invalid")
 		 break
 	  }
 
@@ -44,7 +45,7 @@ func main() {
       fmt.Printf("first names of bookings are : %v\n",firstNames)
 
 	   if remainingTickets == 0 {
-          fmt.Println("All conference tickets already out")
+          fmt.Println("All conference tickets already sold out")
 	       break
 	   }
 
@@ -65,14 +66,11 @@ func getFirstNames() []string {
 
 	 // "for-each" loop
 	 for _, booking := range bookings {
-		// Alternative - "strings.Field()"
-		names := strings.Split(booking, " ")
-		firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking["firstName"])
 	 }
 
 	 return firstNames
 }
-
 
 func getUserInputs()(string, string, string, uint){
 	 var firstName string
@@ -80,14 +78,14 @@ func getUserInputs()(string, string, string, uint){
     var email string
 	 var userTickets uint
 
-	 fmt.Println("What is your first name? :")
-	 // Pointers -'&'. we are passing the memory address of the variable
+	 fmt.Println("Enter first name? :")
+	 // Pointers - '&'. we are passing the memory address of the variable
 	 fmt.Scan(&firstName)
 
-	 fmt.Println("What is your last name? :")
+	 fmt.Println("Enter last name? :")
 	 fmt.Scan(&lastName)
 
-	 fmt.Println("What is your email? :")
+	 fmt.Println("Enter email? :")
 	 fmt.Scan(&email)
 
 	 fmt.Println("How many tickets are you booking? :")
@@ -100,7 +98,17 @@ func bookTicket(firstName string, lastName string, email string, userTickets uin
 
 	remainingTickets =  remainingTickets - userTickets
 
-	bookings = append(bookings, firstName + " " + lastName)
+   // create an empty user map
+	user := make(map[string]string)
+
+	user["firstName"] = firstName;
+	user["lastName"] = lastName;
+	user["email"] = email;
+	// convert uint to string
+	// https://pkg.go.dev/strconv
+	user["numUserTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+
+	bookings = append(bookings, user)
 
 	fmt.Printf("%s %s with email ID: %s, ordered for %d tickets. The number of tickets left is %d 🚀\n",firstName, lastName, email, userTickets, remainingTickets)
 	fmt.Printf("These are all the bookings: %v\n", bookings)
