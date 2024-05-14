@@ -1,7 +1,7 @@
-### BookItNow
+### book-snap
 
 > Brushing up Fundamental Go concepts
 
 ### Run Application
 
-> go run main.go
+> go run `main.go shared.go` or go run .

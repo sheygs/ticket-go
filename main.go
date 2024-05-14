@@ -1,6 +1,7 @@
 package main
 
 import (
+	shared "book-snap/utils"
 	"fmt"
 	"strings"
 )
@@ -11,7 +12,6 @@ var remainingTickets uint = 60
 var conferenceName = "Go conference"
 var bookings []string
 
-
 func main() {
 
 	greetings()
@@ -19,7 +19,7 @@ func main() {
 	for  {
 	 firstName,lastName, email, userTickets := getUserInputs();
 
-	 isValidName, isValidEmail, isValidTicketNum := validateUserInput(firstName, lastName, email, userTickets)
+	 isValidName, isValidEmail, isValidTicketNum := shared.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 
      if !isValidName {
@@ -37,12 +37,7 @@ func main() {
 		 break
 	  }
 
-      remainingTickets -= userTickets
-
-	   bookings = append(bookings, firstName + " " + lastName)
-
-	   fmt.Printf("%s %s with email ID: %s, ordered for %d tickets. The number of tickets left is %d 🚀\n",firstName, lastName, email, userTickets, remainingTickets)
-	   fmt.Printf("These are all the bookings: %v\n", bookings)
+      bookTicket(firstName, lastName, email, userTickets)
 
 	   firstNames := getFirstNames();
 
@@ -59,7 +54,6 @@ func main() {
 func greetings(){
 	// fmt.Println("Welcome to our " + conferenceName + " booking application 🚀");
 	// fmt.Println("Welcome to our ", conferenceName, " booking application 🚀")
-
  	fmt.Printf("Welcome to our %s booking application. 🚀\n", conferenceName)
 	fmt.Printf("We have a total of %d tickets and %d remaining tickets.\n", conferenceTickets, remainingTickets)
 	fmt.Printf("Get your tickets to attend the %s\n", conferenceName)
@@ -79,17 +73,6 @@ func getFirstNames() []string {
 	 return firstNames
 }
 
-func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool){
-
-	 // Input validations
-	 isValidName := len(firstName) >= 3 && len(lastName) >= 3
-
-	 isValidEmail := strings.Contains(email,"@")
-
-	 isValidTicketNum := userTickets <= remainingTickets || userTickets > 0
-
-	 return isValidName, isValidEmail, isValidTicketNum
-}
 
 func getUserInputs()(string, string, string, uint){
 	 var firstName string
@@ -113,14 +96,12 @@ func getUserInputs()(string, string, string, uint){
 	 return firstName, lastName, email, userTickets
 }
 
-func bookTicket(firstName string, lastName string, email string, userTickets uint) []string{
-	// do something
-	remainingTickets -= userTickets
+func bookTicket(firstName string, lastName string, email string, userTickets uint){
+
+	remainingTickets =  remainingTickets - userTickets
 
 	bookings = append(bookings, firstName + " " + lastName)
 
 	fmt.Printf("%s %s with email ID: %s, ordered for %d tickets. The number of tickets left is %d 🚀\n",firstName, lastName, email, userTickets, remainingTickets)
 	fmt.Printf("These are all the bookings: %v\n", bookings)
-
-	return bookings
 }
