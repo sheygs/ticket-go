@@ -14,7 +14,6 @@ var conferenceName = "Go conference"
 // Initialize the size to 0
 var bookings  = make([]User, 0)
 
-
 type User struct {
 	firstName string
 	lastName string
@@ -73,7 +72,7 @@ func getFirstNames() []string {
 	 // empty list
 	 firstNames := []string{}
 
-	 // "for-each" loop
+	 // "for each" loop
 	 for _, booking := range bookings {
 		firstNames = append(firstNames, booking.firstName + ",")
 	 }
@@ -88,7 +87,8 @@ func getUserInputs()(string, string, string, uint){
 	 var userTickets uint
 
 	 fmt.Println("Enter first name: ")
-	 // Pointers - '&'. we are passing the memory address of the variable
+	 // Pointers - '&'
+	 // we're passing the memory address of the variable
 	 fmt.Scan(&firstName)
 
 	 fmt.Println("Enter last name: ")
