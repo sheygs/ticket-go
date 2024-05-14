@@ -1,7 +1,6 @@
-## go-web
-
+### go-web
 > fundamental Go concepts
 
-## Run Application
+### Run App
+> go run `main.go shared.go` or `go run` .
 
-> go run `main.go shared.go` or `go run .`
