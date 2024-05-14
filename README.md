@@ -1,7 +1,7 @@
-### book-snap
+## go-web
 
-> Brushing up Fundamental Go concepts
+> fundamental Go concepts
 
-### Run Application
+## Run Application
 
-> go run `main.go shared.go` or go run .
+> go run `main.go shared.go` or `go run .`
