@@ -1,4 +1,4 @@
-### book-snap
+### go-web
 
 > Brushing up Fundamental Go concepts
 
