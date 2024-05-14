@@ -1,7 +1,6 @@
 ### go-web
-
-> Brushing up Fundamental Go concepts
+> fundamental Go concepts
 
 ### Run App
-
 > go run `main.go shared.go` or `go run` .
+

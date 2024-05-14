@@ -1,17 +1,25 @@
 package main
 
 import (
-	shared "book-snap/utils"
 	"fmt"
-	"strconv"
+	shared "go-web/utils"
 )
 
 // Declare and initialise a variable
 const conferenceTickets uint =  60
 var remainingTickets uint = 60
 var conferenceName = "Go conference"
-// create an empty list of map; Initialize the size to 0
-var bookings  = make([]map[string]string, 0)
+
+// create an empty list of user struct;
+// Initialize the size to 0
+var bookings  = make([]User, 0)
+
+type User struct {
+	firstName string
+	lastName string
+	email string
+	numberOfTickets uint
+}
 
 func main() {
 
@@ -64,9 +72,9 @@ func getFirstNames() []string {
 	 // empty list
 	 firstNames := []string{}
 
-	 // "for-each" loop
+	 // "for each" loop
 	 for _, booking := range bookings {
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName + ",")
 	 }
 
 	 return firstNames
@@ -78,17 +86,18 @@ func getUserInputs()(string, string, string, uint){
     var email string
 	 var userTickets uint
 
-	 fmt.Println("Enter first name? :")
-	 // Pointers - '&'. we are passing the memory address of the variable
+	 fmt.Println("Enter first name: ")
+	 // Pointers - '&'
+	 // we're passing the memory address of the variable
 	 fmt.Scan(&firstName)
 
-	 fmt.Println("Enter last name? :")
+	 fmt.Println("Enter last name: ")
 	 fmt.Scan(&lastName)
 
-	 fmt.Println("Enter email? :")
+	 fmt.Println("Enter email: ")
 	 fmt.Scan(&email)
 
-	 fmt.Println("How many tickets are you booking? :")
+	 fmt.Println("How many tickets are you booking ?:")
 	 fmt.Scan(&userTickets)
 
 	 return firstName, lastName, email, userTickets
@@ -98,15 +107,12 @@ func bookTicket(firstName string, lastName string, email string, userTickets uin
 
 	remainingTickets =  remainingTickets - userTickets
 
-   // create an empty user map
-	user := make(map[string]string)
-
-	user["firstName"] = firstName;
-	user["lastName"] = lastName;
-	user["email"] = email;
-	// convert uint to string
-	// https://pkg.go.dev/strconv
-	user["numUserTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	user := User {
+		firstName: firstName,
+		lastName: lastName,
+		email:email,
+		numberOfTickets: userTickets,
+	}
 
 	bookings = append(bookings, user)
 
