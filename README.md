@@ -1,7 +1,23 @@
-### Run App
+## Running Applications
 
-> go run `main.go`.
+```bash
+go run main.go
+```
 
-### Resource
+## Code Quality
+
+### Formatting
+
+```bash
+gofmt -w *.go
+```
+
+### Linting
+
+```bash
+golangci-lint run
+```
+
+## Learning Resources
 
 - [Go Course](https://tinyurl.com/drkrc5ty)
