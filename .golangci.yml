@@ -1,0 +1,33 @@
+linters:
+  disable-all: true
+  enable:
+    - errcheck # Checks for unchecked errors
+    - gocritic # Provides advanced Go code analysis
+    - gofmt # Checks if code is properly formatted
+    - goimports # Checks imports formatting
+    - gosimple # Simplifies code
+    - govet # Reports suspicious constructs
+    - ineffassign # Detects unused assignments
+    - staticcheck # Modern Go linter
+    - unused # Checks for unused constants, variables, functions and types
+    - whitespace # Checks for unnecessary whitespace
+
+linters-settings:
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+  gofmt:
+    rewrite-rules:
+      - pattern: 'interface{}'
+        replacement: 'any'
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - dupl
+
+run:
+  timeout: 5m

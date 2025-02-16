@@ -4,15 +4,12 @@ import (
 	"strings"
 )
 
+func ValidateUserInput(firstName, lastName, email string, userTickets, remainingTickets uint) (isValidName, isValidEmail, isValidTicketNum bool) {
+	isValidName = len(firstName) >= 3 && len(lastName) >= 3
 
-func ValidateUserInput(firstName string, lastName string, email string, userTickets uint, remainingTickets uint) (bool, bool, bool){
+	isValidEmail = strings.Contains(email, "@")
 
-	 // Input validations
-	 isValidName := len(firstName) >= 3 && len(lastName) >= 3
+	isValidTicketNum = userTickets <= remainingTickets && userTickets > 0
 
-	 isValidEmail := strings.Contains(email,"@")
-
-	 isValidTicketNum := userTickets <= remainingTickets && userTickets > 0
-
-	 return isValidName, isValidEmail, isValidTicketNum
+	return isValidName, isValidEmail, isValidTicketNum
 }

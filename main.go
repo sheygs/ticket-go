@@ -2,120 +2,119 @@ package main
 
 import (
 	"fmt"
-	shared "go-web/utils"
+	shared "ticket-go/utils"
 )
 
-// Declare and initialise a variable
-const conferenceTickets uint =  60
+const conferenceTickets uint = 60
+
 var remainingTickets uint = 60
 var conferenceName = "Go conference"
 
-// create an empty list of user struct;
-// Initialize the size to 0
-var bookings  = make([]User, 0)
+var bookings = make([]User, 0)
 
 type User struct {
-	firstName string
-	lastName string
-	email string
+	firstName       string
+	lastName        string
+	email           string
 	numberOfTickets uint
 }
 
 func main() {
-
 	greetings()
 
-	for  {
-	 firstName,lastName, email, userTickets := getUserInputs();
+	for {
+		firstName, lastName, email, userTickets, err := getUserInputs()
 
-	 isValidName, isValidEmail, isValidTicketNum := shared.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
+		if err != nil {
+			fmt.Println("Error reading input:", err)
+			continue
+		}
 
+		isValidName, isValidEmail, isValidTicketNum := shared.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
-     if !isValidName {
-	    fmt.Println("'firstname/lastname' is invalid")
-		 break
-	  }
+		if !isValidName {
+			fmt.Println("`firstname or lastname` is invalid")
+			continue
+		}
 
-	  if !isValidEmail {
-       fmt.Println("'email' is invalid")
-		 break
-	  }
+		if !isValidEmail {
+			fmt.Println("`email` is invalid")
+			continue
+		}
 
-	  if !isValidTicketNum {
-       fmt.Println("'ticket number' is invalid")
-		 break
-	  }
+		if !isValidTicketNum {
+			fmt.Println("`ticket number` is invalid")
+			continue
+		}
 
-      bookTicket(firstName, lastName, email, userTickets)
+		bookTicket(firstName, lastName, email, userTickets)
 
-	   firstNames := getFirstNames();
+		firstNames := getFirstNames()
 
-      fmt.Printf("first names of bookings are : %v\n",firstNames)
+		fmt.Printf("first names of bookings are : %v\n", firstNames)
 
-	   if remainingTickets == 0 {
-          fmt.Println("All conference tickets already sold out")
-	       break
-	   }
-
+		if remainingTickets == 0 {
+			fmt.Println("All conference tickets already sold out")
+			break
+		}
 	}
 }
 
-func greetings(){
-	// fmt.Println("Welcome to our " + conferenceName + " booking application 🚀");
-	// fmt.Println("Welcome to our ", conferenceName, " booking application 🚀")
- 	fmt.Printf("Welcome to our %s booking application. 🚀\n", conferenceName)
+func greetings() {
+	fmt.Printf("Welcome to our %s booking application. 🚀\n", conferenceName)
 	fmt.Printf("We have a total of %d tickets and %d remaining tickets.\n", conferenceTickets, remainingTickets)
 	fmt.Printf("Get your tickets to attend the %s\n", conferenceName)
 }
 
 func getFirstNames() []string {
-	 // empty list
-	 firstNames := []string{}
+	// empty list
+	firstNames := []string{}
 
-	 // "for each" loop
-	 for _, booking := range bookings {
-		firstNames = append(firstNames, booking.firstName + ",")
-	 }
+	// "for each" loop
+	for _, booking := range bookings {
+		firstNames = append(firstNames, booking.firstName+",")
+	}
 
-	 return firstNames
+	return firstNames
 }
 
-func getUserInputs()(string, string, string, uint){
-	 var firstName string
-	 var lastName string
-    var email string
-	 var userTickets uint
+func getUserInputs() (firstName, lastName, email string, userTickets uint, err error) {
+	fmt.Println("Enter first name: ")
+	// Pointers - we're passing the memory address of the variable
+	if _, err = fmt.Scan(&firstName); err != nil {
+		return "", "", "", 0, err
+	}
 
-	 fmt.Println("Enter first name: ")
-	 // Pointers - '&'
-	 // we're passing the memory address of the variable
-	 fmt.Scan(&firstName)
+	fmt.Println("Enter last name: ")
+	if _, err = fmt.Scan(&lastName); err != nil {
+		return "", "", "", 0, err
+	}
 
-	 fmt.Println("Enter last name: ")
-	 fmt.Scan(&lastName)
+	fmt.Println("Enter email: ")
+	if _, err = fmt.Scan(&email); err != nil {
+		return "", "", "", 0, err
+	}
 
-	 fmt.Println("Enter email: ")
-	 fmt.Scan(&email)
+	fmt.Println("How many tickets are you booking?: ")
+	if _, err = fmt.Scan(&userTickets); err != nil {
+		return "", "", "", 0, err
+	}
 
-	 fmt.Println("How many tickets are you booking ?:")
-	 fmt.Scan(&userTickets)
-
-	 return firstName, lastName, email, userTickets
+	return firstName, lastName, email, userTickets, nil
 }
 
-func bookTicket(firstName string, lastName string, email string, userTickets uint){
+func bookTicket(firstName, lastName, email string, userTickets uint) {
+	remainingTickets -= userTickets
 
-	remainingTickets =  remainingTickets - userTickets
-
-	user := User {
-		firstName: firstName,
-		lastName: lastName,
-		email:email,
+	user := User{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
 		numberOfTickets: userTickets,
 	}
 
 	bookings = append(bookings, user)
 
-	fmt.Printf("%s %s with email ID: %s, ordered for %d tickets. The number of tickets left is %d 🚀\n",firstName, lastName, email, userTickets, remainingTickets)
+	fmt.Printf("%s %s with email ID: %s, ordered for %d tickets. The number of tickets left is %d 🚀\n", firstName, lastName, email, userTickets, remainingTickets)
 	fmt.Printf("These are all the bookings: %v\n", bookings)
 }
